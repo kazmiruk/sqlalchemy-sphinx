@@ -66,14 +66,11 @@ class SphinxCompiler(compiler.SQLCompiler):
             name = self.preparer.quote(name)
         return name
 
-    def plain_escape(self, s):
-        return re.sub(r"([=\(\)\|\-!@~\"&/\\\^\$\=])", r"\\\1", s)
-
     def visit_match_op_binary(self, binary, operator, **kw):
         if self.left_match and self.right_match:
             match_terms = []
             for left, right in zip(self.left_match, self.right_match):
-                t = "(@{} {})".format(self.process(left), self.plain_escape(right.value))
+                t = "(@{} {})".format(self.process(left), right.value)
                 match_terms.append(t)
             self.left_match = tuple()
             self.right_match = tuple()
@@ -86,7 +83,7 @@ class SphinxCompiler(compiler.SQLCompiler):
         if self.left_match and self.right_match:
             match_terms = []
             for left, right in zip(self.left_match, self.right_match):
-                t = "(@{} {})".format(self.process(left), self.plain_escape(right.value))
+                t = "(@{} {})".format(self.process(left), right.value)
                 match_terms.append(t)
             self.left_match = tuple()
             self.right_match = tuple()

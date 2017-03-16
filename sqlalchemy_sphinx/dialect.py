@@ -70,7 +70,8 @@ class SphinxCompiler(compiler.SQLCompiler):
         if self.left_match and self.right_match:
             match_terms = []
             for left, right in zip(self.left_match, self.right_match):
-                t = "(@{} {})".format(self.process(left), right.value)
+                print(right.value, util.quote_plus(right.value))
+                t = "(@{} {})".format(self.process(left), util.quote_plus(right.value))
                 match_terms.append(t)
             self.left_match = tuple()
             self.right_match = tuple()
@@ -83,7 +84,7 @@ class SphinxCompiler(compiler.SQLCompiler):
         if self.left_match and self.right_match:
             match_terms = []
             for left, right in zip(self.left_match, self.right_match):
-                t = "(@{} {})".format(self.process(left), right.value)
+                t = "(@{} {})".format(self.process(left), util.quote_plus(right.value))
                 match_terms.append(t)
             self.left_match = tuple()
             self.right_match = tuple()
